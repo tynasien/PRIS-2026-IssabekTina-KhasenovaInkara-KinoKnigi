@@ -54,3 +54,25 @@ def process_text_message(text, graph, movies_list):
         return f"По вашему описанию подобрал: {', '.join(found_titles[:5])}"
 
     return "Не совсем понял. Попробуй ввести жанр, год или ключевое слово (например, 'Animation')."
+def apply_production_model(movie):
+    """
+    Реализация продукционной модели (Rule-Based System).
+    Набор правил IF-THEN для классификации контента.
+    """
+    score = movie.get('imdb_score', 0)
+    genres = movie.get('genres', [])
+    year = int(movie.get('year', 0))
+    
+    if score >= 8.0 and year < 2005:
+        return "🏆Это культовая классика, проверенная временем."
+    
+    if score >= 8.0 and year >= 2015:
+        return "🔥Современный блокбастер с высочайшим одобрением зрителей."
+    
+    if "Animation" in genres and score >= 8.0:
+        return "🎨Эталонная анимация, рекомендованная всем возрастам."
+    
+    if "Drama" in genres and score >= 7.8:
+        return "🎭Серьезная психологическая работа для вдумчивого просмотра."
+    
+    return "✅Качественный контент, прошедший фильтрацию по рейтингу 7.5+."
